@@ -3,274 +3,654 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>구글 OTP 열쇠, 내 폰으로 공유하기기!</title>
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A user-journey-based SPA guiding from high-level strategy to technical details. Sections: 1. Challenge/Goal, 2. Phased Strategy (interactive timeline/tabs), 3. Technology Stack (interactive comparison), 4. Conclusion. This structure breaks down a complex proposal into manageable, understandable steps, which is more effective for decision-making than a simple report summary. -->
+    <!-- Visualization & Content Choices: MAM vs. File System -> Compare Features -> Bar Chart (Chart.js) -> Hover for values -> Clear visual comparison. Data Richness -> Show Improvement -> Radar Chart (Chart.js) -> Static -> Visualizes the qualitative jump in data depth. Open Source vs. Commercial -> Compare Trade-offs -> Scatter Plot (Chart.js) -> Static -> Helps in strategic decision-making by visualizing trade-offs. Python Pipeline -> Explain Process -> HTML/CSS Diagram -> Click on modules -> Makes a complex technical process interactive. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>WSOP 영상 아카이브 혁신 전략</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-
         body {
-            font-family: 'Jua', sans-serif;
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8F7F4;
+            color: #333333;
+            scroll-behavior: smooth;
         }
-
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 25px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-            padding: 40px 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .section-title {
+            color: #4A6C8C;
         }
-
-        header h1 {
-            font-size: 3em;
-            color: #1a73e8;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        .accent-color {
+            color: #C8A97E;
         }
-
-        header p {
-            font-size: 1.3em;
-            color: #5f6368;
-            margin-bottom: 40px;
+        .bg-accent {
+            background-color: #C8A97E;
         }
-
-        .main-guide h2 {
-            font-size: 2.2em;
-            color: #34a853;
-            margin-bottom: 30px;
-            background-color: #e6f4ea;
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 50px;
+        .bg-main-blue {
+            background-color: #4A6C8C;
         }
-        
-        .process-flow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
         }
-
-        .phone-section {
-            background-color: #ffffff;
-            border: 3px solid #f1f3f4;
-            border-radius: 20px;
-            padding: 30px;
-            width: 45%;
-            min-width: 320px;
-            box-sizing: border-box;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+        .nav-link:hover, .nav-link.active {
+            color: #C8A97E;
+            border-bottom-color: #C8A97E;
         }
-        
-        .phone-section h3 {
-            font-size: 1.8em;
-            margin-top: 0;
-            margin-bottom: 25px;
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-
-        .steps ol {
-            list-style: none;
-            padding: 0;
-            text-align: left;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
-
-        .steps li {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            padding: 15px;
-            border-radius: 12px;
-            background-color: #f8f9fa;
-            transition: transform 0.2s;
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 45vh;
         }
-        
-        .steps li:hover {
-            transform: scale(1.03);
-        }
-        
-        .step-number {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #ffffff;
-            background-color: #4285f4;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            margin-right: 15px;
-        }
-        
-        .step-icon {
-            font-size: 2.5em;
-            margin-right: 15px;
-            line-height: 1;
-        }
-        
-        .arrow {
-            font-size: 5em;
-            color: #4285f4;
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(0);}
-            40% {transform: translateX(15px);}
-            60% {transform: translateX(8px);}
-        }
-
-        .warning {
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 50px;
-            background-color: #fce8e6;
-            border: 2px solid #f9ab90;
-        }
-
-        .warning h2 {
-            font-size: 2em;
-            color: #d93025;
-            margin: 0 0 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .warning-icon {
-            font-size: 1.5em;
-            margin-right: 15px;
-        }
-        
-        .warning-points {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .warning-point {
-            font-size: 1.2em;
-            display: flex;
-            align-items: center;
-            background: white;
-            padding: 10px 20px;
-            border-radius: 15px;
-        }
-        
-        .warning-point .point-icon {
-            font-size: 2.5em;
-            margin-right: 10px;
-        }
-
-        footer {
-            margin-top: 40px;
-            font-size: 1.5em;
-            color: #1a73e8;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px white;
-        }
-        
-        @media (max-width: 850px) {
-            .arrow {
-                transform: rotate(90deg);
-                animation: bounce-vertical 2s infinite;
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+                max-height: 50vh;
             }
-            @keyframes bounce-vertical {
-                0%, 20%, 50%, 80%, 100% {transform: translateY(0) rotate(90deg);}
-                40% {transform: translateY(15px) rotate(90deg);}
-                60% {transform: translateY(8px) rotate(90deg);}
-            }
+        }
+        .tab-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .tab-button.active {
+            background-color: #4A6C8C;
+            color: white;
+        }
+        .pipeline-module {
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            border: 2px solid #E5E7EB;
+        }
+        .pipeline-module:hover, .pipeline-module.active {
+            background-color: #EBF0F5;
+            border-color: #4A6C8C;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <div class="container">
-        <header>
-            <h1>내 구글 OTP 열쇠 🔑<br>내 폰으로 안전하게 이사시키기!</h1>
-            <p>QR코드 마법으로 소중한 비밀 열쇠를 내 폰에 똑같이 복사해 봐요!</p>
-        </header>
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold section-title">Jiji-Prod. WSOP Archive Strategy</h1>
+                </div>
+                <nav class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#challenge" class="nav-link px-3 py-2 rounded-md text-sm font-medium">1. 도전 과제</a>
+                        <a href="#strategy" class="nav-link px-3 py-2 rounded-md text-sm font-medium">2. 실행 전략</a>
+                        <a href="#tech" class="nav-link px-3 py-2 rounded-md text-sm font-medium">3. 기술 스택</a>
+                        <a href="#conclusion" class="nav-link px-3 py-2 rounded-md text-sm font-medium">4. 결론</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-        <div class="main-guide">
-            <h2>QR코드 마법으로 열쇠 복사하기! ✨</h2>
-            <div class="process-flow">
-                <div class="phone-section">
-                    <h3>🚀 원본 폰에서 준비!</h3>
-                    <div class="steps">
-                        <ol>
-                            <li>
-                                <div class="step-number">1</div>
-                                <span class="step-icon">📱</span> 
-                                <div><strong>OTP 앱 열기</strong><br>쓰고 있던 폰에서<br>구글 OTP 앱을 실행해요.</div>
-                            </li>
-                            <li>
-                                <div class="step-number">2</div>
-                                <span class="step-icon">⚙️</span>
-                                <div><strong>'계정 내보내기' 찾기</strong><br>오른쪽 위 메뉴(점 3개)를 누르고 '계정 전송' > '계정 내보내기'를 선택해요.</div>
-                            </li>
-                            <li>
-                                <div class="step-number">3</div>
-                                <span class="step-icon">🔲</span>
-                                <div><strong>QR코드 확인하기</strong><br>복사하고 싶은 계정을 고르면 마법의 QR코드가 나타나요!</div>
-                            </li>
-                        </ol>
+    <main>
+        <!-- Section 1: The Challenge & The Goal -->
+        <section id="challenge" class="py-20 lg:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <p class="text-base font-semibold accent-color tracking-wider uppercase fade-in">The Challenge & The Goal</p>
+                <h2 class="mt-2 text-3xl md:text-4xl font-extrabold tracking-tight section-title fade-in">단순 백업을 넘어, 검색 가능한 자산으로</h2>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600 fade-in">
+                    지지 프로덕션은 방대한 WSOP 영상 에셋을 보유하고 있습니다. 이는 엄청난 잠재 가치를 지닌 자산이지만, 현재는 단순 백업 상태에 머물러 있습니다. 이 보고서는 어떻게 이 영상들을 '검색 가능하고', '활용도 높은' 콘텐츠 제작의 보고(寶庫)로 만들 수 있는지에 대한 전략을 제시합니다.
+                </p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card p-8 fade-in" style="transition-delay: 100ms;">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-main-blue text-white mx-auto">
+                            <span class="text-2xl">🎯</span>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold">효율적인 검색</h3>
+                        <p class="mt-2 text-gray-600">"필 헬뮤트의 블러프"나 "파이널 테이블의 배드빗"과 같은 특정 상황을 수 분 내에 찾아낼 수 있는 시스템을 구축합니다.</p>
+                    </div>
+                    <div class="card p-8 fade-in" style="transition-delay: 200ms;">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-main-blue text-white mx-auto">
+                            <span class="text-2xl">🚀</span>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold">콘텐츠 제작 가속화</h3>
+                        <p class="mt-2 text-gray-600">스토리텔링에 필요한 영상 클립을 즉시 확보하여, 창의적인 콘텐츠 제작에 더 많은 시간을 투자할 수 있습니다.</p>
+                    </div>
+                    <div class="card p-8 fade-in" style="transition-delay: 300ms;">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-main-blue text-white mx-auto">
+                            <span class="text-2xl">💎</span>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold">자산 가치 극대화</h3>
+                        <p class="mt-2 text-gray-600">영상 아카이브의 잠재 가치를 100% 이끌어내어 새로운 수익 모델 및 콘텐츠 포맷 개발의 기반을 마련합니다.</p>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="arrow">➡️</div>
+        <!-- Section 2: The Proposed Strategy -->
+        <section id="strategy" class="py-20 lg:py-28 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <p class="text-base font-semibold accent-color tracking-wider uppercase fade-in">The Proposed Strategy</p>
+                    <h2 class="mt-2 text-3xl md:text-4xl font-extrabold tracking-tight section-title fade-in">성공을 위한 3단계 실행 로드맵</h2>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600 fade-in">
+                        복잡한 시스템 구축을 한 번에 진행하는 대신, 측정 가능하고 관리 가능한 3단계 접근 방식을 제안합니다. 각 단계는 이전 단계의 성공을 기반으로 시스템을 점진적으로 고도화합니다.
+                    </p>
+                </div>
 
-                <div class="phone-section">
-                    <h3>✨ 내 폰으로 찰칵!</h3>
-                    <div class="steps">
-                        <ol>
-                            <li>
-                                <div class="step-number">1</div>
-                                <span class="step-icon">📲</span> 
-                                <div><strong>OTP 앱 열기</strong><br>새 폰에 설치한 구글 OTP 앱을 실행하고 시작 버튼을 눌러요.</div>
-                            </li>
-                            <li>
-                                <div class="step-number">2</div>
-                                <span class="step-icon">➕</span>
-                                <div><strong>'QR코드 스캔' 찾기</strong><br>계정 추가(+)를 누르고<br>'QR 코드 스캔'을 선택해요.</div>
-                            </li>
-                            <li>
-                                <div class="step-number">3</div>
-                                <span class="step-icon">📸</span>
-                                <div><strong>QR코드 스캔하기</strong><br>새 폰 카메라로 옛날 폰에 뜬 QR코드를 찰칵! 찍어줘요.</div>
-                            </li>
+                <div class="mt-16 fade-in">
+                    <div class="flex justify-center border-b border-gray-200">
+                        <button data-tab="phase1" class="tab-button active text-base md:text-lg font-medium py-4 px-4 md:px-8 -mb-px">1단계: 기반 구축</button>
+                        <button data-tab="phase2" class="tab-button text-base md:text-lg font-medium py-4 px-4 md:px-8 -mb-px">2단계: AI 강화</button>
+                        <button data-tab="phase3" class="tab-button text-base md:text-lg font-medium py-4 px-4 md:px-8 -mb-px">3단계: 최적화 및 활용</button>
+                    </div>
+
+                    <div id="phase1" class="tab-content mt-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h3 class="text-2xl font-bold section-title">Phase 1: 기반 구축 (Foundation)</h3>
+                                <p class="mt-4 text-gray-600">
+                                    모든 데이터의 중심이 될 견고한 기반을 마련합니다. 기존 파일 시스템의 한계를 극복하고, 확장성과 협업을 지원하는 미디어 자산 관리(MAM) 시스템을 도입합니다. 동시에, 가장 기본적인 3가지 프로필(대회, 캐릭터, 핸드)을 정의하고 태깅을 시작합니다.
+                                </p>
+                                <ul class="mt-6 space-y-4">
+                                    <li class="flex items-start">
+                                        <span class="h-6 w-6 flex items-center justify-center rounded-full bg-accent text-white font-bold flex-shrink-0 mr-3">✓</span>
+                                        <span><strong class="font-semibold">MAM 시스템 도입:</strong> 중앙 집중식 저장, 고급 검색, 워크플로우 자동화의 시작.</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="h-6 w-6 flex items-center justify-center rounded-full bg-accent text-white font-bold flex-shrink-0 mr-3">✓</span>
+                                        <span><strong class="font-semibold">핵심 프로필 정의:</strong> '무엇을(대회)', '누가(캐릭터)', '언제(핸드)'에 대한 기본 메타데이터 구조화.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-center font-semibold mb-4">MAM 시스템 도입 효과</h4>
+                                <div class="chart-container">
+                                    <canvas id="mamChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="phase2" class="tab-content mt-8 hidden">
+                         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                            <div class="lg:col-span-2">
+                                <h3 class="text-2xl font-bold section-title">Phase 2: AI 기반 강화 (AI Enhancement)</h3>
+                                <p class="mt-4 text-gray-600">
+                                    단순 메타데이터를 넘어, 영상의 '내용'을 이해하는 단계입니다. Python과 오픈소스 AI 도구를 활용한 자동 분석 파이프라인을 구축하여 카드, 칩, 플레이어 액션, 음성 대화까지 데이터로 변환합니다. 이는 검색의 깊이와 질을 혁신적으로 향상시킵니다.
+                                </p>
+                                <div id="pipeline-info" class="mt-6 p-4 bg-gray-50 rounded-lg min-h-[100px]">
+                                    <p class="font-semibold text-gray-800">아래 모듈을 클릭하여 역할을 확인하세요.</p>
+                                    <p class="text-sm text-gray-600"></p>
+                                </div>
+                            </div>
+                            <div class="lg:col-span-3">
+                                 <h4 class="text-center font-semibold mb-4">AI 기반 자동 분석 파이프라인</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="pipeline-module flex-1 p-3 text-center rounded-md" data-info="원본 영상 파일(MP4)이 파이프라인의 시작점입니다.">
+                                            🎬 영상 파일
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center">↓</div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="pipeline-module p-3 text-center rounded-md" data-info="FFmpeg을 사용하여 영상에서 오디오 트랙을 분리합니다. 이는 음성 인식(ASR)의 입력으로 사용됩니다.">
+                                            🔊 오디오 추출
+                                        </div>
+                                        <div class="pipeline-module p-3 text-center rounded-md" data-info="PySceneDetect를 사용하여 장면 전환 지점을 감지, 영상을 의미 있는 단위(핸드)로 분할합니다.">
+                                            🎞️ 장면 분할
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center">↓</div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                       <div class="pipeline-module p-3 text-center rounded-md" data-info="OpenAI Whisper를 사용하여 추출된 오디오의 대화 내용을 텍스트로 변환합니다. 해설, 플레이어 대화 등이 검색 가능한 데이터가 됩니다.">
+                                            🗣️ 음성 인식<br>(Whisper)
+                                        </div>
+                                       <div class="pipeline-module p-3 text-center rounded-md" data-info="YOLOv8 모델을 사용하여 프레임 내의 카드, 칩, 플레이어 등 특정 객체를 자동으로 식별하고 위치를 태깅합니다.">
+                                            🃏 객체 검출<br>(YOLOv8)
+                                        </div>
+                                       <div class="pipeline-module p-3 text-center rounded-md" data-info="Tesseract OCR을 사용하여 화면 상의 텍스트(자막, 스택 정보, 팟 크기 등)를 추출합니다.">
+                                            🔡 문자 인식<br>(Tesseract)
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center">↓</div>
+                                    <div class="pipeline-module bg-green-100 border-green-400 p-4 text-center rounded-md" data-info="모든 분석 결과를 타임스탬프 기준으로 통합하여 구조화된 JSON 파일로 저장합니다. 이 파일이 바로 검색 가능한 데이터베이스의 원천이 됩니다.">
+                                        💾 구조화된 메타데이터 (JSON)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="phase3" class="tab-content mt-8 hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h3 class="text-2xl font-bold section-title">Phase 3: 최적화 및 활용 (Optimization & Production)</h3>
+                                <p class="mt-4 text-gray-600">
+                                    구축된 시스템을 실제 콘텐츠 제작에 본격적으로 활용하는 단계입니다. AI가 생성한 태그를 인간 전문가가 검토하고(Human-in-the-Loop), '블러프', '배드빗'과 같은 서사적/전략적 태그를 추가하여 데이터의 가치를 극대화합니다.
+                                </p>
+                                <div class="mt-6">
+                                    <p class="font-semibold">콘텐츠 쿼리 시뮬레이터:</p>
+                                    <p class="text-sm text-gray-500 mb-2">원하는 '이야기 조각'을 클릭하여 콘텐츠를 찾아보세요.</p>
+                                    <div id="query-tags" class="flex flex-wrap gap-2">
+                                        <button class="query-tag bg-gray-200 px-3 py-1 rounded-full text-sm hover:bg-gray-300">Phil Hellmuth</button>
+                                        <button class="query-tag bg-gray-200 px-3 py-1 rounded-full text-sm hover:bg-gray-300">Final Table</button>
+                                        <button class="query-tag bg-gray-200 px-3 py-1 rounded-full text-sm hover:bg-gray-300">Bluff</button>
+                                        <button class="query-tag bg-gray-200 px-3 py-1 rounded-full text-sm hover:bg-gray-300">Bad Beat</button>
+                                        <button class="query-tag bg-gray-200 px-3 py-1 rounded-full text-sm hover:bg-gray-300">All-in</button>
+                                    </div>
+                                    <div id="query-result" class="mt-4 p-4 bg-gray-50 rounded-lg min-h-[80px]">
+                                        <p class="text-gray-700">검색 결과가 여기에 표시됩니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div>
+                                <h4 class="text-center font-semibold mb-4">데이터 가치 변화</h4>
+                                <div class="chart-container">
+                                    <canvas id="valueChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Technology Stack -->
+        <section id="tech" class="py-20 lg:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <p class="text-base font-semibold accent-color tracking-wider uppercase fade-in">Technology Stack & Tools</p>
+                    <h2 class="mt-2 text-3xl md:text-4xl font-extrabold tracking-tight section-title fade-in">목표 달성을 위한 도구 선택</h2>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600 fade-in">
+                        프로젝트의 성공은 올바른 도구를 선택하는 데 달려있습니다. 우리는 '무료 오픈소스' 방식과 '상용 솔루션' 방식의 장단점을 비교하여, 지지 프로덕션의 현재 상황에 가장 적합한 전략적 선택지를 제시합니다.
+                    </p>
+                </div>
+
+                 <div class="mt-16 fade-in">
+                    <div class="flex justify-center border-b border-gray-200">
+                        <button data-tech-tab="opensource" class="tech-tab-button tab-button active text-base md:text-lg font-medium py-4 px-4 md:px-8 -mb-px">무료/오픈소스</button>
+                        <button data-tech-tab="commercial" class="tech-tab-button tab-button text-base md:text-lg font-medium py-4 px-4 md:px-8 -mb-px">상용 솔루션</button>
+                    </div>
+
+                    <div id="opensource" class="tech-tab-content mt-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                           <div>
+                                <h3 class="text-2xl font-bold section-title">자유도 높은 자체 구축</h3>
+                                <p class="mt-4 text-gray-600">
+                                    초기 비용 없이 강력한 AI 기능을 활용할 수 있는 방식입니다. Python을 중심으로 한 오픈소스 도구들을 조합하여, 지지 프로덕션의 특정 요구사항에 완벽하게 부합하는 맞춤형 시스템을 구축할 수 있습니다. 다만, 개발 및 유지보수를 위한 내부 역량이 필요합니다.
+                                </p>
+                                <div class="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <div class="card p-4 text-center"><strong>Python</strong><p class="text-xs text-gray-500">개발 언어</p></div>
+                                    <div class="card p-4 text-center"><strong>YOLOv8</strong><p class="text-xs text-gray-500">객체 검출</p></div>
+                                    <div class="card p-4 text-center"><strong>Whisper</strong><p class="text-xs text-gray-500">음성 인식</p></div>
+                                    <div class="card p-4 text-center"><strong>Tesseract</strong><p class="text-xs text-gray-500">문자 인식</p></div>
+                                    <div class="card p-4 text-center"><strong>PySceneDetect</strong><p class="text-xs text-gray-500">장면 분할</p></div>
+                                    <div class="card p-4 text-center"><strong>FFmpeg</strong><p class="text-xs text-gray-500">영상 처리</p></div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-center font-semibold mb-4">접근 방식별 트레이드오프</h4>
+                                <div class="chart-container">
+                                    <canvas id="tradeoffChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="commercial" class="tech-tab-content mt-8 hidden">
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold section-title">신속한 도입과 안정성</h3>
+                            <p class="mt-4 text-gray-600 max-w-3xl mx-auto">
+                                검증된 상용 MAM 솔루션을 도입하여 개발 시간 없이 즉시 시스템을 활용하는 방식입니다. 초기 도입 및 구독 비용이 발생하지만, 안정적인 성능과 기술 지원, 지속적인 업데이트를 보장받을 수 있습니다.
+                            </p>
+                        </div>
+                        <div class="mt-8 flow-root">
+                            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-300">
+                                            <thead class="bg-gray-50">
+                                                <tr>
+                                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">솔루션</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">핵심 AI 기능</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">장점</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">비용 등급</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-200 bg-white">
+                                                <tr>
+                                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">MediaValet</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">얼굴인식, 자동태깅, 트랜스크립션</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">엔터프라이즈급 보안, 확장성</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">중~고</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">Bynder</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">AI 검색, 자동 번역</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">브랜드 관리 중심, UI/UX</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">중~고</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">Adobe AEM Assets</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Adobe Sensei AI, 스마트 검색</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Adobe 생태계 연동, 강력한 워크플로우</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">고</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Conclusion -->
+        <section id="conclusion" class="py-20 lg:py-28 bg-main-blue text-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-extrabold tracking-tight fade-in">결론 및 전략적 권고</h2>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-200 fade-in">
+                    '지지 프로덕션만의 방식'은 오픈소스의 유연성과 상용 솔루션의 안정성을 결합한 하이브리드 접근 방식에서 찾을 수 있습니다. 우리는 **MAM을 기반으로, 단계적으로 오픈소스 AI 분석 파이프라인을 통합**하는 전략을 최종적으로 권고합니다.
+                </p>
+                <div class="mt-12 text-left max-w-3xl mx-auto space-y-4 fade-in">
+                     <div class="bg-white/10 p-6 rounded-lg">
+                        <h3 class="font-semibold text-xl">🚀 다음 단계 (Next Steps)</h3>
+                        <ol class="mt-4 list-decimal list-inside space-y-3">
+                            <li><strong>1. MAM 솔루션 선정 및 PoC(Proof of Concept) 진행:</strong> 1~2개 상용 솔루션을 대상으로 소규모 영상 에셋을 활용하여 기능 및 성능을 검증합니다.</li>
+                            <li><strong>2. 오픈소스 파이프라인 프로토타입 개발:</strong> 가장 시급한 '핸드 분할' 및 '음성 텍스트화' 기능 중심으로 Python 기반 프로토타입을 구축합니다.</li>
+                            <li><strong>3. 통합 로드맵 수립:</strong> PoC와 프로토타입 결과를 바탕으로, MAM 시스템에 커스텀 AI 모듈을 통합하기 위한 구체적인 기술 로드맵과 예산 계획을 수립합니다.</li>
                         </ol>
                     </div>
                 </div>
             </div>
+        </section>
+    </main>
+    
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; 2025 Jiji Production. Interactive Strategy Report.</p>
         </div>
-        
-        <div class="warning">
-            <h2><span class="warning-icon">🚨</span>꼭 지켜야 할 중요한 약속!</h2>
-            <div class="warning-points">
-                <div class="warning-point">
-                    <span class="point-icon">🔒</span>
-                    <div><strong>내 폰은 나만!</strong><br>비밀번호를 꼭 걸어둬요.</div>
-                </div>
+    </footer>
 
-            </div>
-        </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Chart Data & Options ---
+            const chartFontColor = '#6B7280';
+            Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+            Chart.defaults.color = chartFontColor;
 
-        <footer>
-            이사 완료! 🎉 이제 내 폰에서도 안전하게 사용할 수 있어요!
-        </footer>
-    </div>
+            const mamChartData = {
+                labels: ['검색 효율성', '확장성', '협업 용이성', '초기 비용', '유지보수'],
+                datasets: [
+                    {
+                        label: '단순 파일 시스템',
+                        data: [2, 3, 2, 9, 4],
+                        backgroundColor: 'rgba(200, 169, 126, 0.5)',
+                        borderColor: 'rgba(200, 169, 126, 1)',
+                        borderWidth: 1,
+                    },
+                    {
+                        label: 'MAM 시스템',
+                        data: [9, 9, 8, 4, 8],
+                        backgroundColor: 'rgba(74, 108, 140, 0.5)',
+                        borderColor: 'rgba(74, 108, 140, 1)',
+                        borderWidth: 1,
+                    }
+                ]
+            };
 
+            const valueChartData = {
+                labels: ['기본 정보', '게임 액션', '전략/서사', '콘텐츠 맥락', '예측 분석', '자동 하이라이트'],
+                datasets: [{
+                    label: '기반 구축 (1단계)',
+                    data: [8, 2, 1, 2, 0, 0],
+                    fill: true,
+                    backgroundColor: 'rgba(200, 169, 126, 0.2)',
+                    borderColor: 'rgb(200, 169, 126)',
+                    pointBackgroundColor: 'rgb(200, 169, 126)',
+                }, {
+                    label: '최적화 및 활용 (3단계)',
+                    data: [9, 9, 8, 7, 5, 8],
+                    fill: true,
+                    backgroundColor: 'rgba(74, 108, 140, 0.2)',
+                    borderColor: 'rgb(74, 108, 140)',
+                    pointBackgroundColor: 'rgb(74, 108, 140)',
+                }]
+            };
+
+            const tradeoffChartData = {
+                datasets: [{
+                    label: '오픈소스 접근',
+                    data: [{x: 8, y: 3, r: 15}],
+                    backgroundColor: 'rgba(74, 108, 140, 0.7)'
+                }, {
+                    label: '상용 솔루션 접근',
+                    data: [{x: 4, y: 8, r: 15}],
+                    backgroundColor: 'rgba(200, 169, 126, 0.7)'
+                }]
+            };
+            
+            // --- Chart Rendering ---
+            let mamChart, valueChart, tradeoffChart;
+
+            function createMamChart() {
+                const ctx = document.getElementById('mamChart').getContext('2d');
+                mamChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: mamChartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        plugins: {
+                            title: { display: false },
+                            legend: { position: 'bottom' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${context.raw}/10`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { max: 10, grid: { color: '#E5E7EB' } },
+                            y: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            function createValueChart() {
+                const ctx = document.getElementById('valueChart').getContext('2d');
+                valueChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: valueChartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            title: { display: false }
+                        },
+                        scales: {
+                            r: {
+                                angleLines: { color: '#E5E7EB' },
+                                grid: { color: '#E5E7EB' },
+                                pointLabels: { font: { size: 12 } },
+                                suggestedMin: 0,
+                                suggestedMax: 10
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createTradeoffChart() {
+                const ctx = document.getElementById('tradeoffChart').getContext('2d');
+                tradeoffChart = new Chart(ctx, {
+                    type: 'bubble',
+                    data: tradeoffChartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                max: 10, min: 0,
+                                title: { display: true, text: '초기 비용 및 도입 속도' },
+                                grid: { color: '#E5E7EB' }
+                            },
+                            x: {
+                                max: 10, min: 0,
+                                title: { display: true, text: '자유도 및 맞춤화' },
+                                grid: { color: '#E5E7EB' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // --- Tab Functionality ---
+            function setupTabs(tabButtonsSelector, tabContentsSelector, activeClass) {
+                const tabButtons = document.querySelectorAll(tabButtonsSelector);
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabId = button.dataset.tab || button.dataset.techTab;
+                        
+                        document.querySelectorAll(tabContentsSelector).forEach(content => {
+                            content.classList.add('hidden');
+                        });
+                        document.getElementById(tabId).classList.remove('hidden');
+
+                        tabButtons.forEach(btn => btn.classList.remove(activeClass));
+                        button.classList.add(activeClass);
+                        
+                        // Re-render charts if they are in the activated tab to prevent rendering issues
+                        if (mamChart && mamChart.canvas.offsetParent !== null) mamChart.resize();
+                        if (valueChart && valueChart.canvas.offsetParent !== null) valueChart.resize();
+                        if (tradeoffChart && tradeoffChart.canvas.offsetParent !== null) tradeoffChart.resize();
+                    });
+                });
+            }
+
+            setupTabs('.tab-button', '.tab-content', 'active');
+            setupTabs('.tech-tab-button', '.tech-tab-content', 'active');
+
+            // --- Pipeline Interaction ---
+            const pipelineModules = document.querySelectorAll('.pipeline-module');
+            const pipelineInfoEl = document.getElementById('pipeline-info');
+            pipelineModules.forEach(module => {
+                module.addEventListener('click', () => {
+                    const infoText = module.dataset.info;
+                    pipelineInfoEl.querySelector('p:first-child').textContent = module.textContent.trim();
+                    pipelineInfoEl.querySelector('p:last-child').textContent = infoText;
+                    
+                    pipelineModules.forEach(m => m.classList.remove('active'));
+                    module.classList.add('active');
+                });
+            });
+
+            // --- Query Simulator ---
+            const queryTags = document.querySelectorAll('.query-tag');
+            const queryResultEl = document.getElementById('query-result').querySelector('p');
+            let selectedTags = new Set();
+            queryTags.forEach(tag => {
+                tag.addEventListener('click', () => {
+                    tag.classList.toggle('bg-main-blue');
+                    tag.classList.toggle('text-white');
+                    tag.classList.toggle('bg-gray-200');
+
+                    const tagText = tag.textContent;
+                    if (selectedTags.has(tagText)) {
+                        selectedTags.delete(tagText);
+                    } else {
+                        selectedTags.add(tagText);
+                    }
+                    
+                    if (selectedTags.size === 0) {
+                        queryResultEl.innerHTML = '검색 결과가 여기에 표시됩니다.';
+                    } else {
+                        const count = Math.floor(Math.random() * 5) + (selectedTags.size * 2);
+                        queryResultEl.innerHTML = `<strong>[${Array.from(selectedTags).join(', ')}]</strong> 태그 조합으로 <span class="font-bold accent-color">${count}개</span>의 영상 클립을 찾았습니다.`;
+                    }
+                });
+            });
+
+            // --- Fade-in Animation on Scroll ---
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // --- Nav Link Active State on Scroll ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav a');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- Initial Chart Rendering ---
+            createMamChart();
+            createValueChart();
+            createTradeoffChart();
+        });
+    </script>
 </body>
 </html>
